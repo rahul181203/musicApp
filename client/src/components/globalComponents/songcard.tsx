@@ -44,7 +44,7 @@ export const AlbumCard = () => {
       
     />
   </Inset>
-  <Heading size={(mobile)?'4':'5'} className=" max-w-[230px] "></Heading>
+  <Heading size={(mobile)?'4':'5'} className=" w-[170px] whitespace-normal">Happy Pop Hits</Heading>
   <Text as="div" size={'1'} color={'gray'} className=" whitespace-normal">Dua Lipa, Ed Sheeran, Camila Cabello, Ella</Text>
 </Card>
   </>;
