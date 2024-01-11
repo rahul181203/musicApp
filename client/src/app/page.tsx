@@ -10,6 +10,7 @@ import { AlbumCard, SongCard } from '@/components/globalComponents/songcard'
 import { Quickpicks } from '@/components/rootComponents/quickpicks'
 import { Recommened } from '@/components/rootComponents/recommened'
 import { MobileSelectArtists, SelectArtists } from '@/components/rootComponents/selectArtists'
+import { MainPlayer, MobilePlayer } from '@/components/globalComponents/player'
 
 export default function Home() {
   const mobile = useAtomValue(sizeAtom)
@@ -32,7 +33,9 @@ export default function Home() {
             <Recommened/>
             <SectionSpacer/>
             <Recommened/>
+            <MainPlayer/>
           </Container>
+          
         </>
       }
 
@@ -53,6 +56,7 @@ export default function Home() {
             <SectionSpacer/>
             <Recommened/>
           </Container>
+          <MobilePlayer/>
           
           
         </>

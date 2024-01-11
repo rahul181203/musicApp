@@ -14,6 +14,9 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "MusicApp",
   description: "Listen to the best songs",
+  icons:{
+    icon:"/logo.png"
+  }
 };
 
 export default function RootLayout({
