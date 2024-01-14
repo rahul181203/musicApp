@@ -48,7 +48,7 @@ export const MainPlayer = () => {
     }
 
     useEffect(()=>{
-      const audio:HTMLAudioElement = document.getElementById("player")!
+      const audio:HTMLAudioElement = document.getElementById("player") as HTMLAudioElement
       audio.src = songurl
       audio.addEventListener("loadeddata",()=>{     
         setDuration(getTimeCodeFromNum(audio.duration))
