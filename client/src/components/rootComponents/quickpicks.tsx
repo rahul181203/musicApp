@@ -13,9 +13,7 @@ export const Quickpicks=()=>{
             <Grid rows={'4'} flow={'column'}  gap={'3'} mb={'4'}>
                 {
                     SongData.map((e,i)=>{
-                        return <>
-                        <SongCard key={i} song={e}/>
-                        </>
+                        return <SongCard key={i} song={e}/>
                     })
                 }
             </Grid>

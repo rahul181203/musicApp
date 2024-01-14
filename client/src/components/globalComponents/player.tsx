@@ -20,21 +20,20 @@ import PlayerExpand from "./playerExpand";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { currentSong, currentTime, currentsongurl, durationTime, playorpause, progressWidth, songArtist, songName } from "@/store/song";
 import { useEffect } from "react";
+import { sizeAtom } from "@/store/responsive";
 
 export const MainPlayer = () => {
-    // const [song,setSong] = useAtom(currentSong)
 
     const songurl = useAtomValue(currentsongurl)
-    const song = useAtomValue(currentSong)
-    const setSong = useSetAtom(currentSong)
-    const setTime = useSetAtom(currentTime)
-    const setDuration = useSetAtom(durationTime)
-    const setWidth = useSetAtom(progressWidth)
-    const setPlayPause = useSetAtom(playorpause);
+    const mobile = useAtomValue(sizeAtom)
+    const [song,setSong] = useAtom(currentSong)
+    // const setSong = useSetAtom(currentSong)
+    const [duration,setDuration] = useAtom(durationTime)
+    const [ct,setTime] = useAtom(currentTime)
+    const [playPause, setPlayPause] = useAtom(playorpause)
     const currentSongName = useAtomValue(songName)
     const currentSongArtist = useAtomValue(songArtist)
-    // const pauseplay = useAtomValue(playorpause)
-    const setPausePlay = useSetAtom(playorpause)
+    const setWidth = useSetAtom(progressWidth)
 
     function getTimeCodeFromNum(num:number){
       let seconds:number = parseInt(String(num));
@@ -54,28 +53,18 @@ export const MainPlayer = () => {
         setDuration(getTimeCodeFromNum(audio.duration))
         audio.play()
       })
+      console.log(audio.paused);
       setSong(audio)
       setPlayPause(true);
-      // setDuration(getTimeCodeFromNum(audio.duration))
-    })
+    },[songurl])
 
-    // function songSet(){
-    //     console.log("clicked");
-    //     const audio = new Audio("/song.mp3");
-    //     setSong(audio);
 
-    //   setInterval(()=>{
-    //     setWidth((audio.currentTime/audio.duration)*100)
-    //     setTime(getTimeCodeFromNum(audio.currentTime))
-    // },500)
-    // }
-
-    function togglepauseplay(){
-      const play = document.getElementById("playbtn")
-      const Pause = document.getElementById("pausebtn")
-      play?.classList.toggle("hidden")
-      Pause?.classList.toggle("hidden")
-    }
+    setInterval(()=>{
+      if(song !== undefined){
+        setWidth((song.currentTime/song.duration)*100)
+        setTime(getTimeCodeFromNum(song.currentTime))
+      }
+    },500)
     
 
   return (
@@ -108,23 +97,25 @@ export const MainPlayer = () => {
           </Dialog.Root>
 
           <div className="flex gap-2">
+            <Text>{ct}</Text>
             <TrackPreviousIcon
               className="text-sand1"
               height={"20"}
               width={"20"}
             />
-            <div onClick={()=>togglepauseplay()} className=" cursor-pointer">
-              <PauseIcon id="pausebtn" onClick={()=>{song.pause();setPausePlay(false)}} className="text-sand1" height={'20'} width={'20'}/>
-              <PlayIcon id="playbtn" onClick={()=>{song.play();setPausePlay(true)}} className="text-sand1 hidden" height={"20"} width={"20"} />
+            <div className=" cursor-pointer">
+              {(playPause)?<PauseIcon id="pausebtn" onClick={()=>{song.pause();setPlayPause(false)}} className="text-sand1" height={'20'} width={'20'}/>:
+              <PlayIcon id="playbtn" onClick={()=>{song.play();setPlayPause(true)}} className="text-sand1" height={"20"} width={"20"} />}
             </div>
             <TrackNextIcon className="text-sand1" height={"20"} width={"20"} />
+            <Text>{duration}</Text>
           </div>
-          <div className="flex gap-2">
+          {(!mobile)&&<div className="flex gap-2">
             <SpeakerOffIcon className="text-sand1" height={"20"} width={"20"} onClick={()=>{song.volume=0}} />
             <SpeakerLoudIcon className="text-sand1" height={'20'} width={'20'} onClick={()=>{song.volume=1}}/>
             <ShuffleIcon className="text-sand1" height={"20"} width={"20"} />
             <LoopIcon className="text-sand1" height={"20"} width={"20"} />
-          </div>
+          </div>}
         </div>
       </Container>
     </>

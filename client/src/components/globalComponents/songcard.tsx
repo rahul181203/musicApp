@@ -7,11 +7,6 @@ import Image from "next/image";
 
 export const SongCard = (props:any) => {
   const mobile = useAtomValue(sizeAtom);
-  const song = useAtomValue(currentSong)
-  const setSong = useSetAtom(currentSong)
-  const setTime = useSetAtom(currentTime)
-  const setDuration = useSetAtom(durationTime)
-  const setWidth = useSetAtom(progressWidth)
   const setPlaying = useSetAtom(isPlaying)
   const setURL = useSetAtom(currentsongurl);
   const setSongname = useSetAtom(songName)
@@ -28,31 +23,7 @@ export const SongCard = (props:any) => {
     return `${String(hours).padStart(2,"0")}:${minutes}:${String(seconds%60).padStart(2,"0")}`
   }
 
-  // function songSet(){
-  //   console.log("clicked");
-  //   if(song !== undefined){
-  //     console.log("entered");      
-  //     song.pause()
-  //   }
-  //   const audio = new Audio("/song.mp3");
-  //   setSong(audio);
-  //   audio.addEventListener("loadeddata",()=>{
-  //     setDuration(getTimeCodeFromNum(audio.duration))
-  //   })
-  //   audio.play()
-  //   setPlaying(true)
-  // }
-
   function songSet(song:any){
-    // console.log(index);
-    // if(song !== undefined){
-    //   song.src = ""
-    // }
-    // const audio:HTMLAudioElement = document.getElementsByClassName("player").item(index)
-    // console.log(audio);    
-    // setSong(audio);
-    // setDuration(getTimeCodeFromNum(audio.duration))
-    // audio.play()
     setURL(song.url)
     setSongname(song.name)
     setSongArtist(song.artist)
@@ -62,7 +33,6 @@ export const SongCard = (props:any) => {
   return (
     <>
       <Card style={{"minWidth":(mobile)?"230px":"270px"}} onClick={()=>songSet(props.song)} className="cursor-pointer" >
-        {/* <audio src={props.url} preload="true" className="player"></audio> */}
         <Flex gap="3" align="center">
           <Avatar
             size={(mobile)?"4":"5"}

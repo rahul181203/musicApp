@@ -26,13 +26,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <Provider>
       <body className={poppins.variable} suppressHydrationWarning={true}>
+      <Provider>
           <Theme appearance={"dark"} panelBackground={'solid'}>
             {children}
           </Theme>
-      </body>
       </Provider>
+      </body>
     </html>
   );
 }
