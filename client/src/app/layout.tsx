@@ -4,6 +4,7 @@ import "./globals.css";
 import { Theme } from "@radix-ui/themes";
 import { Provider } from "jotai";
 import "@radix-ui/themes/styles.css";
+import { Analytics } from "@vercel/analytics/react";
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
@@ -30,6 +31,7 @@ export default function RootLayout({
       <Provider>
           <Theme appearance={"dark"} panelBackground={'solid'}>
             {children}
+            <Analytics/>
           </Theme>
       </Provider>
       </body>
