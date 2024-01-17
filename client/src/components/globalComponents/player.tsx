@@ -18,16 +18,18 @@ import {
 } from "@radix-ui/themes";
 import PlayerExpand from "./playerExpand";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { currentSong, currentTime, currentsongurl, durationTime, playorpause, progressWidth, songArtist, songName } from "@/store/song";
-import { useEffect } from "react";
+import { currentSong, currentTime, currentsongurl, durationTime, playorpause, progressWidth, songArtist, songName, songimg } from "@/store/song";
+import { useEffect, useState } from "react";
 import { sizeAtom } from "@/store/responsive";
 
 export const MainPlayer = () => {
 
+    const [audio, setAudio] = useState<HTMLAudioElement>(new Audio())
+
     const songurl = useAtomValue(currentsongurl)
     const mobile = useAtomValue(sizeAtom)
     const [song,setSong] = useAtom(currentSong)
-    // const setSong = useSetAtom(currentSong)
+    const songimage = useAtomValue(songimg)
     const [duration,setDuration] = useAtom(durationTime)
     const [ct,setTime] = useAtom(currentTime)
     const [playPause, setPlayPause] = useAtom(playorpause)
@@ -47,16 +49,25 @@ export const MainPlayer = () => {
     }
 
     useEffect(()=>{
-      const audio:HTMLAudioElement = document.getElementById("player") as HTMLAudioElement
+
+      // setAudio(new Audio())
+      // const audio:HTMLAudioElement = document.getElementById("player") as HTMLAudioElement
       audio.src = songurl
       audio.addEventListener("loadeddata",()=>{     
         setDuration(getTimeCodeFromNum(audio.duration))
         audio.play()
+        // audio.addTextTrack()
       })
       console.log(audio.paused);
       setSong(audio)
       setPlayPause(true);
+      audio.addEventListener("ended",()=>{
+        audio.src="/song3.mp3"
+      })
     },[songurl])
+
+    
+    
 
 
     setInterval(()=>{
@@ -75,12 +86,12 @@ export const MainPlayer = () => {
         px={"5"}
         size={"4"}
       >
-        <audio id="player" src="" preload="auto"></audio>
+        {/* <audio id="player" src="" preload="auto"></audio> */}
         <div className="flex justify-between items-center">
           <Dialog.Root>
             <Dialog.Trigger>
               <div className="flex gap-3 cursor-pointer">
-                <Avatar fallback={"I"} size={"3"} src="/song.jpg" />
+                <Avatar fallback={"I"} size={"3"} src={songimage} />
                 <div>
                   <Heading size={"2"} className="text-sand1">
                     {currentSongName}
@@ -133,7 +144,7 @@ export const MobilePlayer = () => {
       >
         <div className="flex justify-between items-center">
           <div className="flex gap-3">
-            <Avatar fallback={"I"} size={"3"} src="/img.jpg" />
+            {/* <Avatar fallback={"I"} size={"3"} src={songimage} /> */}
             <div>
               <Heading size={"2"} className="text-sand1 max-w-40">
                 Why this Kolaveri Di? (The Soup of Love)

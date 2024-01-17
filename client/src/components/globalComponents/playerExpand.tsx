@@ -4,7 +4,7 @@ import { LoopIcon, PauseIcon, PlayIcon, ReloadIcon, ShuffleIcon, SpeakerLoudIcon
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { currentSong, currentTime, durationTime, isPlaying, isreplay, playorpause, progressWidth, songArtist, songName } from "@/store/song";
+import { currentSong, currentTime, durationTime, isPlaying, isreplay, playorpause, progressWidth, songArtist, songName, songimg } from "@/store/song";
 
 export default function PlayerExpand(){
 
@@ -12,7 +12,7 @@ export default function PlayerExpand(){
     const setTime = useSetAtom(currentTime)
     const duration = useAtomValue(durationTime)
     const width = useAtomValue(progressWidth)
-    
+    const songimage = useAtomValue(songimg)
     const [playPause, setPlayPause] = useAtom(playorpause)
     const song = useAtomValue(currentSong)
     const currentSongName = useAtomValue(songName)
@@ -74,7 +74,7 @@ export default function PlayerExpand(){
             
             <Container size={'4'} p={'5'}>
                 <Flex direction={'column'} gap={'4'} align={'center'} justify={'center'}>
-                    <Image src={'/song.jpg'} alt="vasudhara" layout="fit" height={0} width={300}/>
+                    <Image src={songimage} alt="vasudhara" layout="fit" height={0} width={300}/>
                     <Heading size={'7'}>{currentSongName}</Heading>
                     <Text>{currentsongartist}</Text>
                     <audio preload="auto">

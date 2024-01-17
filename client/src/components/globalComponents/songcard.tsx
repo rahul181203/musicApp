@@ -1,5 +1,5 @@
 import { sizeAtom } from "@/store/responsive";
-import { currentSong, currentTime, currentsongurl, durationTime, isPlaying, progressWidth, songArtist, songName } from "@/store/song";
+import { currentSong, currentTime, currentsongurl, durationTime, isPlaying, progressWidth, songArtist, songName, songimg } from "@/store/song";
 import { Card,Flex,Avatar,Box,Text,Inset,Strong,Heading } from "@radix-ui/themes";
 import { useAtomValue, useSetAtom } from "jotai";
 import Image from "next/image";
@@ -11,6 +11,7 @@ export const SongCard = (props:any) => {
   const setURL = useSetAtom(currentsongurl);
   const setSongname = useSetAtom(songName)
   const setSongArtist = useSetAtom(songArtist)
+  const setimg = useSetAtom(songimg);
 
   function getTimeCodeFromNum(num:number){
     let seconds:number = parseInt(String(num));
@@ -27,7 +28,8 @@ export const SongCard = (props:any) => {
     setURL(song.url)
     setSongname(song.name)
     setSongArtist(song.artist)
-    setPlaying(true)    
+    setPlaying(true)
+    setimg(song.img)
   }
 
   return (
@@ -36,7 +38,7 @@ export const SongCard = (props:any) => {
         <Flex gap="3" align="center">
           <Avatar
             size={(mobile)?"4":"5"}
-            src="/song.jpg"
+            src={props.song.img}
             radius={'medium'}
             fallback="O"
           />
