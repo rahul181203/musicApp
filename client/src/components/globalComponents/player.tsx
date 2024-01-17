@@ -61,9 +61,9 @@ export const MainPlayer = () => {
       console.log(audio.paused);
       setSong(audio)
       setPlayPause(true);
-      audio.addEventListener("ended",()=>{
-        audio.src="/song3.mp3"
-      })
+      // audio.addEventListener("ended",()=>{
+      //   audio.src="/song3.mp3"
+      // })
     },[songurl])
 
     
