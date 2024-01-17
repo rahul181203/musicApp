@@ -6,24 +6,6 @@ export const SongData:Array<any> = [
         "img":"/song.jpg"
     },
     {
-        "name":"In The Night",
-        "url":"/song1.mp3",
-        "artist":"M.M.Keeravani",
-        "img":"/song.jpg"
-    },
-    {
-        "name":"Nachavuraa",
-        "url":"/song2.mp3",
-        "artist":"M.M.Keeravani",
-        "img":"/song.jpg"
-    },
-    {
-        "name":"Chiranjeeva",
-        "url":"/song3.mp3",
-        "artist":"M.M.Keeravani",
-        "img":"/song.jpg"
-    },
-    {
         "name":"Ammayi",
         "url":"/animal/ani01.mp3",
         "artist":"Raghav Chaitanya",
@@ -60,6 +42,12 @@ export const SongData:Array<any> = [
         "img":"/animal/pic.jpg"
     },
     {
+        "name":"In The Night",
+        "url":"/song1.mp3",
+        "artist":"M.M.Keeravani",
+        "img":"/song.jpg"
+    },
+    {
         "name":"Jamal kudu",
         "url":"/animal/ani09.mp3",
         "artist":"Karthik",
@@ -72,6 +60,12 @@ export const SongData:Array<any> = [
         "img":"/animal/pic.jpg"
     },
     {
+        "name":"Nachavuraa",
+        "url":"/song2.mp3",
+        "artist":"M.M.Keeravani",
+        "img":"/song.jpg"
+    },
+    {
         "name":"Ranvijays entry bgm",
         "url":"/animal/ani11.mp3",
         "artist":"Karthik",
@@ -82,5 +76,11 @@ export const SongData:Array<any> = [
         "url":"/animal/ani12.mp3",
         "artist":"Vishal Mishra",
         "img":"/animal/pic.jpg"
+    },
+    {
+        "name":"Chiranjeeva",
+        "url":"/song3.mp3",
+        "artist":"M.M.Keeravani",
+        "img":"/song.jpg"
     }
 ]
