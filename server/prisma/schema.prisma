@@ -11,27 +11,39 @@ datasource db {
 }
 
 model Album {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
-  img  String
-  Song Song[]
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  img      String
+  year     String
+  language String
+  songs     Song[]
 }
 
 model Song {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  id       String       @id @default(auto()) @map("_id") @db.ObjectId
   name     String
   img      String
   length   String
   file     String
-  album    Album  @relation(fields: [albumId], references: [id])
-  albumId  String @db.ObjectId
-  artist   Artist @relation(fields: [artistId], references: [id])
-  artistId String @db.ObjectId
+  album    Album        @relation(fields: [albumId], references: [id])
+  albumId  String       @db.ObjectId
+  language String
+  artists  songArtist[]
+  likes    Int
+  share    Int
 }
 
 model Artist {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
-  img  String
-  Song Song[]
+  id    String       @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  img   String
+  songs songArtist[]
+}
+
+model songArtist {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  song     Song?   @relation(fields: [songId], references: [id])
+  songId   String? @db.ObjectId
+  artist   Artist? @relation(fields: [artistId], references: [id])
+  artistId String? @db.ObjectId
 }

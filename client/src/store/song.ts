@@ -11,3 +11,5 @@ export const currentsongurl = atom("")
 export const songName = atom("")
 export const songArtist = atom("")
 export const songimg = atom<string>("")
+
+export const songData = atom({})
