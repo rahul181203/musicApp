@@ -1,5 +1,5 @@
 import express,{Express} from "express"
-import { AddAlbums, AddArtist, AddSong, AddSongArtist, getAlbums, getArtists, getSongs } from "../controllers/dataAdd";
+import { getAlbums, getArtists, getSongs } from "../controllers/dataAdd";
 
 const router:Express = express();
 
