@@ -18,14 +18,20 @@ import {
 } from "@radix-ui/themes";
 import PlayerExpand from "./playerExpand";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { currentSong, currentTime, currentsongurl, durationTime, playorpause, progressWidth, songArtist, songName, songimg } from "@/store/song";
+import { currentSong, currentTime, currentsongurl, durationTime, isPlaying, playorpause, progressWidth, songArtist, songName, songimg } from "@/store/song";
 import { useEffect, useState } from "react";
 import { sizeAtom } from "@/store/responsive";
 
 export const MainPlayer = () => {
 
-    const [audio, setAudio] = useState<HTMLAudioElement>(new Audio())
+  function getAudio(){
+    if(typeof Audio !== "undefined")
+      return new Audio();
+    else
+    return undefined
+  }
 
+    const [audio, setAudio] = useState<HTMLAudioElement | undefined>(getAudio)
     const songurl = useAtomValue(currentsongurl)
     const mobile = useAtomValue(sizeAtom)
     const [song,setSong] = useAtom(currentSong)
@@ -36,6 +42,9 @@ export const MainPlayer = () => {
     const currentSongName = useAtomValue(songName)
     const currentSongArtist = useAtomValue(songArtist)
     const setWidth = useSetAtom(progressWidth)
+    const playing = useAtomValue(isPlaying)
+    
+
 
     function getTimeCodeFromNum(num:number){
       let seconds:number = parseInt(String(num));
@@ -50,15 +59,15 @@ export const MainPlayer = () => {
 
     useEffect(()=>{
 
-      // setAudio(new Audio())
       // const audio:HTMLAudioElement = document.getElementById("player") as HTMLAudioElement
-      audio.src = songurl
-      audio.addEventListener("loadeddata",()=>{     
-        setDuration(getTimeCodeFromNum(audio.duration))
-        audio.play()
-        // audio.addTextTrack()
-      })
-      console.log(audio.paused);
+      if(typeof audio !== "undefined"){
+        audio.src = songurl
+        audio.addEventListener("loadeddata",()=>{     
+          setDuration(getTimeCodeFromNum(audio.duration))
+          audio.play()
+          // audio.addTextTrack()
+        })
+      }
       setSong(audio)
       setPlayPause(true);
       // audio.addEventListener("ended",()=>{
@@ -80,7 +89,7 @@ export const MainPlayer = () => {
 
   return (
     <>
-      <Container
+    { (playing) && <Container
         className="sticky bottom-5 bg-sand8 rounded-full"
         p={"3"}
         px={"5"}
@@ -128,7 +137,7 @@ export const MainPlayer = () => {
             <LoopIcon className="text-sand1" height={"20"} width={"20"} />
           </div>}
         </div>
-      </Container>
+      </Container>}
     </>
   );
 };

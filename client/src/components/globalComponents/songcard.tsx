@@ -3,6 +3,7 @@ import { currentSong, currentTime, currentsongurl, durationTime, isPlaying, prog
 import { Card,Flex,Avatar,Box,Text,Inset,Strong,Heading } from "@radix-ui/themes";
 import { useAtomValue, useSetAtom } from "jotai";
 import Image from "next/image";
+import Link from "next/link";
 
 
 export const SongCard = (props:any) => {
@@ -56,22 +57,28 @@ export const SongCard = (props:any) => {
   );
 };
 
-export const AlbumCard = () => {
+export const AlbumCard = (props:any) => {
   const mobile = useAtomValue(sizeAtom);
+
   return <>
-    <Card size="2" >
-  <Inset clip="padding-box" side="top" pb="current">
+  <Link href={{pathname:'/album', query:{
+    "data":`${JSON.stringify(props.album)}`
+  }}} >
+    <Card size="2" className="cursor-pointer">
+  <Inset clip="padding-box" side="top" pb="current" className="w-full h-[200px]">
     <Image
-      src="/img.jpg"
+    className="object-cover w-full"
+      src={props.album.img}
       alt="song"
       width={'100'}
       height={'100'}
+      quality={100}
       layout="responsive"
-      
     />
   </Inset>
-  <Heading size={(mobile)?'4':'5'} className=" w-[170px] whitespace-normal">Happy Pop Hits</Heading>
-  <Text as="div" size={'1'} color={'gray'} className=" whitespace-normal">Dua Lipa, Ed Sheeran, Camila Cabello, Ella</Text>
+  <Heading size={(mobile)?'4':'5'} className=" w-[170px] whitespace-normal">{props.album.name}</Heading>
+  <Text as="div" size={'1'} color={'gray'} className=" whitespace-normal">{props.album.language} . {props.album.year}</Text>
 </Card>
+</Link>
   </>;
 };

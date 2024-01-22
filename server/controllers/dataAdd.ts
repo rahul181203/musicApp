@@ -66,15 +66,7 @@ export const getSongs=async(req:Request,res:Response)=>{
     const data = await prisma.song.findMany({
         include:{
             album:true,
-            artists:{
-                select:{
-                    artist:{
-                        select:{
-                            name:true
-                        }
-                    }
-                }
-            }
+            artists:true
         }
     })
     res.status(200).json({data})

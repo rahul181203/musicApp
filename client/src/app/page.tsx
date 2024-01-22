@@ -36,7 +36,6 @@ export default function Home() {
             <Recommened/>
             <SectionSpacer/>
             <Recommened/>
-            {(playing)&&<MainPlayer/>}
           </Container>
           
         </>
@@ -59,7 +58,6 @@ export default function Home() {
             <SectionSpacer/>
             <Recommened/>
           </Container>
-          {(playing)&&<MainPlayer/>}
         </>
       }
     </>
