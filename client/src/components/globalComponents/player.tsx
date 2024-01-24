@@ -43,7 +43,7 @@ export const MainPlayer = () => {
     // const currentSongArtist = useAtomValue(songArtist)
     const setWidth = useSetAtom(progressWidth)
     const playing = useAtomValue(isPlaying)
-    const songs = useAtomValue(songData);
+    const songs:Array<any> = useAtomValue(songData);
     const [indexNumber,setIndex] = useAtom(index);
 
 
@@ -61,26 +61,27 @@ export const MainPlayer = () => {
     useEffect(()=>{
       console.log("entered");  
       // const audio:HTMLAudioElement = document.getElementById("player") as HTMLAudioElement
-      if(typeof audio !== "undefined"){
-              
-        audio.src = songs[indexNumber]?.file
-        audio.addEventListener("loadeddata",()=>{     
-          setDuration(getTimeCodeFromNum(audio.duration))
-          audio.play()
-          // audio.addTextTrack()
-        })
-        audio.addEventListener("ended",()=>{
-          console.log(songs.length);
-            if(songs.length !== indexNumber + 1){
-              console.log("enter");
-              
-              setIndex(indexNumber+1);
-              audio.src = songs[indexNumber]?.file;
-              audio.play();
-            }else{
-              audio.pause();
-            }
-        })
+      if(typeof songs !== "undefined"){
+        if(typeof audio !== "undefined"){
+          audio.src = songs[indexNumber]?.file
+          audio.addEventListener("loadeddata",()=>{     
+            setDuration(getTimeCodeFromNum(audio.duration))
+            audio.play()
+            // audio.addTextTrack()
+          })
+          audio.addEventListener("ended",()=>{
+            console.log(songs.length);
+              if(songs.length !== indexNumber + 1){
+                console.log("enter");
+                
+                setIndex(indexNumber+1);
+                audio.src = songs[indexNumber]?.file;
+                audio.play();
+              }else{
+                audio.pause();
+              }
+          })
+        }
       }
       setSong(audio)
       setPlayPause(true);

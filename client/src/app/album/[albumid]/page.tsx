@@ -12,8 +12,8 @@ export default function Album({params}:{
     params:{ albumid:string}
 }){
     console.log(params.albumid);
-    async function getSongs(){
-        return await axios.get(`/getAlbums/${params.albumid}`)
+    function getSongs(){
+        return axios.get(`/getAlbums/${params.albumid}`)
     }
     
     const {status, data, error,isLoading} = useQuery({
@@ -27,7 +27,7 @@ export default function Album({params}:{
             (isLoading)&&<Heading>Loading...</Heading>
         }
         {
-            (!isLoading)&&<AlbumCard data={data}/>
+            (!isLoading)&&<AlbumCard data={data?.data.data}/>
         }
         </>
     )
