@@ -4,7 +4,7 @@ import { LoopIcon, PauseIcon, PlayIcon, ReloadIcon, ShuffleIcon, SpeakerLoudIcon
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { currentSong, currentTime, durationTime, isPlaying, isreplay, playorpause, progressWidth, songArtist, songName, songimg } from "@/store/song";
+import { currentSongAudioFile, currentTime, durationTime, index, isPlaying, isreplay, playorpause, progressWidth, songData} from "@/store/song";
 
 export default function PlayerExpand(){
 
@@ -12,11 +12,10 @@ export default function PlayerExpand(){
     const setTime = useSetAtom(currentTime)
     const duration = useAtomValue(durationTime)
     const width = useAtomValue(progressWidth)
-    const songimage = useAtomValue(songimg)
-    const [playPause, setPlayPause] = useAtom(playorpause)
-    const song = useAtomValue(currentSong)
-    const currentSongName = useAtomValue(songName)
-    const currentsongartist = useAtomValue(songArtist)
+    const [playPause, setPlayPause] = useAtom(playorpause);
+    const songFile = useAtomValue(currentSongAudioFile);
+    const songs = useAtomValue(songData);
+    const indexNumber = useAtomValue(index);
 
     function getTimeCodeFromNum(num:number){
         let seconds:number = parseInt(String(num));
@@ -41,15 +40,14 @@ export default function PlayerExpand(){
             console.log(e);            
             const timeWidth = window.getComputedStyle(timeline).width;
             console.log(timeWidth);
-            const timetoseek = e.offsetX / parseInt(timeWidth) * song.duration;
-            console.log(timetoseek);   
-            song.currentTime = timetoseek;
-            if(song.paused){
+            const timetoseek = e.offsetX / parseInt(timeWidth) * songFile.duration;
+            console.log(timetoseek);
+            songFile.currentTime = timetoseek;
+            if(songFile.paused){
                 playbtn?.classList.remove("hidden")
                 pausebtn?.classList.add("hidden")
             }
         })
-
     },[])
 
 
@@ -59,11 +57,11 @@ export default function PlayerExpand(){
     // },500)
 
     function playbtn(){
-        song.play();
+        songFile.play();
         setPlayPause(true)
     }
     function pausebtn(){
-        song.pause();
+        songFile.pause();
         setPlayPause(false);
     }
 
@@ -74,12 +72,9 @@ export default function PlayerExpand(){
             
             <Container size={'4'} p={'5'}>
                 <Flex direction={'column'} gap={'4'} align={'center'} justify={'center'}>
-                    <Image src={songimage} alt="vasudhara" layout="fit" height={0} width={300}/>
-                    <Heading size={'7'}>{currentSongName}</Heading>
-                    <Text>{currentsongartist}</Text>
-                    <audio preload="auto">
-                        <source id="file1" src="/song.mp3" type="audio/mpeg" />
-                    </audio>
+                    <Image src={songs[indexNumber]?.img} alt="vasudhara" layout="fit" height={0} width={300}/>
+                    <Heading size={'7'}>{songs[indexNumber]?.name}</Heading>
+                    <Text>{}</Text>
                     <div className="flex gap-3 w-full items-center justify-center">
                         <Text id="currTime">{time}</Text>
                         <div id="timeline" className="w-full h-2 bg-white relative cursor-pointer rounded">

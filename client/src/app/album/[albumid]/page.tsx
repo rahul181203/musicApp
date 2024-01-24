@@ -6,8 +6,7 @@ import { useAtom } from "jotai"
 import Image from "next/image";
 import axios from "@/services/instance";
 import { useQuery } from "@tanstack/react-query";
-import { AlbumCard } from "../components/albumList";
-// import { useSearchParams } from "next/navigation";
+import { AlbumCard } from "../components/albumList"
 
 export default function Album({params}:{
     params:{ albumid:string}
@@ -28,7 +27,7 @@ export default function Album({params}:{
             (isLoading)&&<Heading>Loading...</Heading>
         }
         {
-            (!isLoading)&&<AlbumCard  data={data}/>
+            (!isLoading)&&<AlbumCard data={data}/>
         }
         </>
     )

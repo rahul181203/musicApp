@@ -1,16 +1,24 @@
 import { atom} from "jotai"
 
+interface SongTypes{
+    id:string,
+    name:string,
+    img:string,
+    length:string,
+    file:string,
+    albumId:string,
+    language:string,
+    likes:number,
+    share:number,
+    artists:Array<any>
+}
+
 export const currentTime = atom("00:00")
 export const durationTime = atom("00:00")
 export const progressWidth = atom(0)
 export const isPlaying = atom(false)
-isPlaying.debugLabel = "isplaying"
 export const isreplay = atom(false)
 export const playorpause = atom(true);
-export const currentSong = atom<any>(undefined)
-export const currentsongurl = atom("")
-export const songName = atom("")
-export const songArtist = atom("")
-export const songimg = atom<string>("")
-
-export const songData = atom({})
+export const currentSongAudioFile = atom<any>({})
+export const index = atom(0);
+export const songData = atom<SongTypes[]>([])

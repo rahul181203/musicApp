@@ -18,7 +18,7 @@ import {
 } from "@radix-ui/themes";
 import PlayerExpand from "./playerExpand";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { currentSong, currentTime, currentsongurl, durationTime, isPlaying, playorpause, progressWidth, songArtist, songName, songimg } from "@/store/song";
+import { currentSongAudioFile, currentTime, durationTime, index, isPlaying, playorpause, progressWidth, songData} from "@/store/song";
 import { useEffect, useState } from "react";
 import { sizeAtom } from "@/store/responsive";
 
@@ -32,18 +32,19 @@ export const MainPlayer = () => {
   }
 
     const [audio, setAudio] = useState<HTMLAudioElement | undefined>(getAudio)
-    const songurl = useAtomValue(currentsongurl)
+    // const songurl = useAtomValue(currentsongurl)
     const mobile = useAtomValue(sizeAtom)
-    const [song,setSong] = useAtom(currentSong)
-    const songimage = useAtomValue(songimg)
+    const [songFile,setSong] = useAtom(currentSongAudioFile)
+    // const songimage = useAtomValue(songimg)
     const [duration,setDuration] = useAtom(durationTime)
     const [ct,setTime] = useAtom(currentTime)
     const [playPause, setPlayPause] = useAtom(playorpause)
-    const currentSongName = useAtomValue(songName)
-    const currentSongArtist = useAtomValue(songArtist)
+    // const currentSongName = useAtomValue(songName)
+    // const currentSongArtist = useAtomValue(songArtist)
     const setWidth = useSetAtom(progressWidth)
     const playing = useAtomValue(isPlaying)
-    
+    const songs = useAtomValue(songData);
+    const [indexNumber,setIndex] = useAtom(index);
 
 
     function getTimeCodeFromNum(num:number){
@@ -61,28 +62,31 @@ export const MainPlayer = () => {
 
       // const audio:HTMLAudioElement = document.getElementById("player") as HTMLAudioElement
       if(typeof audio !== "undefined"){
-        audio.src = songurl
+        audio.src = songs[indexNumber]?.file
         audio.addEventListener("loadeddata",()=>{     
           setDuration(getTimeCodeFromNum(audio.duration))
           audio.play()
           // audio.addTextTrack()
         })
+        audio.addEventListener("ended",()=>{
+            (songs.length !== indexNumber + 1)&&setIndex(indexNumber+1);
+            if(songs.length !== indexNumber + 1){
+              audio.src = songs[indexNumber]?.file;
+            }else{
+              audio.pause();
+            }
+            (songs.length !== indexNumber + 1)&&audio.play();
+        })
       }
       setSong(audio)
       setPlayPause(true);
-      // audio.addEventListener("ended",()=>{
-      //   audio.src="/song3.mp3"
-      // })
-    },[songurl])
-
-    
-    
+    },[indexNumber])
 
 
     setInterval(()=>{
-      if(song !== undefined){
-        setWidth((song.currentTime/song.duration)*100)
-        setTime(getTimeCodeFromNum(song.currentTime))
+      if(songFile !== undefined){
+        setWidth((songFile.currentTime/songFile.duration)*100)
+        setTime(getTimeCodeFromNum(songFile.currentTime))
       }
     },500)
     
@@ -100,13 +104,13 @@ export const MainPlayer = () => {
           <Dialog.Root>
             <Dialog.Trigger>
               <div className="flex gap-3 cursor-pointer">
-                <Avatar fallback={"I"} size={"3"} src={songimage} />
+                <Avatar fallback={"I"} size={"3"} src={songs[indexNumber]?.img} />
                 <div>
                   <Heading size={"2"} className="text-sand1">
-                    {currentSongName}
+                    {songs[indexNumber]?.name}
                   </Heading>
                   <Text size={"2"} className="text-sand1">
-                    {currentSongArtist}
+                    {}
                   </Text>
                 </div>
               </div>
@@ -117,22 +121,22 @@ export const MainPlayer = () => {
           </Dialog.Root>
 
           <div className="flex gap-2">
-            <Text>{ct}</Text>
+            <Text>{ct!}</Text>
             <TrackPreviousIcon
               className="text-sand1"
               height={"20"}
               width={"20"}
             />
             <div className=" cursor-pointer">
-              {(playPause)?<PauseIcon id="pausebtn" onClick={()=>{song.pause();setPlayPause(false)}} className="text-sand1" height={'20'} width={'20'}/>:
-              <PlayIcon id="playbtn" onClick={()=>{song.play();setPlayPause(true)}} className="text-sand1" height={"20"} width={"20"} />}
+              {(playPause)?<PauseIcon id="pausebtn" onClick={()=>{songFile.pause();setPlayPause(false)}} className="text-sand1" height={'20'} width={'20'}/>:
+              <PlayIcon id="playbtn" onClick={()=>{songFile.play();setPlayPause(true)}} className="text-sand1" height={"20"} width={"20"} />}
             </div>
             <TrackNextIcon className="text-sand1" height={"20"} width={"20"} />
-            <Text>{duration}</Text>
+            <Text>{duration!}</Text>
           </div>
           {(!mobile)&&<div className="flex gap-2">
-            <SpeakerOffIcon className="text-sand1" height={"20"} width={"20"} onClick={()=>{song.volume=0}} />
-            <SpeakerLoudIcon className="text-sand1" height={'20'} width={'20'} onClick={()=>{song.volume=1}}/>
+            <SpeakerOffIcon className="text-sand1" height={"20"} width={"20"} onClick={()=>{songFile.volume=0}} />
+            <SpeakerLoudIcon className="text-sand1" height={'20'} width={'20'} onClick={()=>{songFile.volume=1}}/>
             <ShuffleIcon className="text-sand1" height={"20"} width={"20"} />
             <LoopIcon className="text-sand1" height={"20"} width={"20"} />
           </div>}

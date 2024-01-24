@@ -1,19 +1,16 @@
 import { sizeAtom } from "@/store/responsive";
-import { currentSong, currentTime, currentsongurl, durationTime, isPlaying, progressWidth, songArtist, songName, songimg } from "@/store/song";
+import { currentSongAudioFile, currentTime, durationTime, index, isPlaying, progressWidth, songData} from "@/store/song";
 import { Card,Flex,Avatar,Box,Text,Inset,Strong,Heading } from "@radix-ui/themes";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useSetAtom,useAtomValue } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
-
 
 export const SongCard = (props:any) => {
   const mobile = useAtomValue(sizeAtom);
   const setPlaying = useSetAtom(isPlaying)
-  const setURL = useSetAtom(currentsongurl);
-  const setSongname = useSetAtom(songName)
-  const setSongArtist = useSetAtom(songArtist)
-  const setimg = useSetAtom(songimg);
-
+  const [songs,setSongs] = useAtom(songData);
+  const [indexNumber,setIndex] = useAtom(index);
+  
   function getTimeCodeFromNum(num:number){
     let seconds:number = parseInt(String(num));
     let minutes:number = parseInt(String(seconds/60));
@@ -25,17 +22,14 @@ export const SongCard = (props:any) => {
     return `${String(hours).padStart(2,"0")}:${minutes}:${String(seconds%60).padStart(2,"0")}`
   }
 
-  function songSet(song:any){
-    setURL(song.url)
-    setSongname(song.name)
-    setSongArtist(song.artist)
+  function songSet(){
+    (songs.length !== indexNumber+1) && setIndex(indexNumber+1);
     setPlaying(true)
-    setimg(song.img)
   }
 
   return (
     <>
-      <Card style={{"minWidth":(mobile)?"230px":"270px"}} onClick={()=>songSet(props.song)} className="cursor-pointer" >
+      <Card style={{"minWidth":(mobile)?"230px":"270px"}} onClick={()=>songSet()} className="cursor-pointer" >
         <Flex gap="3" align="center">
           <Avatar
             size={(mobile)?"4":"5"}

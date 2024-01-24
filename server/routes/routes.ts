@@ -1,5 +1,5 @@
 import express,{Express} from "express"
-import { getAlbums, getArtists, getSongs,AddSong,getAlbumSong} from "../controllers/dataAdd";
+import { getAlbums, getArtists, getSongs,AddSong,getAlbumSong, get15songs} from "../controllers/dataAdd";
 
 const router:Express = express();
 
@@ -11,5 +11,6 @@ router.post("/addSongs",AddSong);
 router.get("/getSongData",getSongs);
 // router.post("/loadRelation",AddSongArtist)
 router.get("/getAlbums/:id",getAlbumSong)
+router.get("/get15songs",get15songs)
 
 export default router;

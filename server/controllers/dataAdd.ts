@@ -54,7 +54,15 @@ export const getAlbumSong=async(req:Request,res:Response)=>{
         include:{
             songs:{
                 include:{
-                    artists:true
+                    artists:{
+                        select:{
+                            artist:{
+                                select:{
+                                    name:true
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -67,7 +75,15 @@ export const getArtists=async(req:Request,res:Response)=>{
         include:{
             songs:{
                 select:{
-                    song:true
+                    song:{
+                        select:{
+                            artists:{
+                                include:{
+                                    artist:true
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -79,7 +95,32 @@ export const getSongs=async(req:Request,res:Response)=>{
     const data = await prisma.song.findMany({
         include:{
             album:true,
-            artists:true
+            artists:{
+                include:{
+                    artist:true
+                }
+            }
+        }
+    })
+    res.status(200).json({data})
+}
+
+export const get15songs = async(req:Request,res:Response)=>{
+    const data = await prisma.song.findMany({
+        take:15,
+        orderBy:{
+            length:'desc'
+        },
+        include:{
+            artists:{
+                select:{
+                    artist:{
+                        select:{
+                            name:true
+                        }
+                    }
+                }
+            }
         }
     })
     res.status(200).json({data})

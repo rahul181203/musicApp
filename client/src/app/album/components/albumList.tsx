@@ -1,11 +1,14 @@
-
+"use client"
+import { songData } from "@/store/song";
 import { PlayIcon } from "@radix-ui/react-icons";
 import { Container,Heading,Box,Table,Text } from "@radix-ui/themes"
+import { useAtom } from "jotai";
 import Image from "next/image";
 
 export function AlbumCard({data}:{
     data:any
 }){
+    const [songs,setSongs] = useAtom(songData);
     return(
         <>
             <Container size={'4'} m={'5'}>
@@ -24,6 +27,7 @@ export function AlbumCard({data}:{
                 </Box>
                 <Table.Root className="w-full">
                 <Table.Body>
+                {setSongs(data?.data.data.songs)}
                 {
                     data?.data.data.songs.map((e:any,i:any)=>{
                         return <Table.Row key={i}>
