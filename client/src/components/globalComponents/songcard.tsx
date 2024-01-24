@@ -22,14 +22,14 @@ export const SongCard = (props:any) => {
     return `${String(hours).padStart(2,"0")}:${minutes}:${String(seconds%60).padStart(2,"0")}`
   }
 
-  function songSet(){
-    (songs.length !== indexNumber+1) && setIndex(indexNumber+1);
+  function songSet(song:any){
+    setSongs([song]);
     setPlaying(true)
   }
 
   return (
     <>
-      <Card style={{"minWidth":(mobile)?"230px":"270px"}} onClick={()=>songSet()} className="cursor-pointer" >
+      <Card style={{"minWidth":(mobile)?"230px":"270px"}} onClick={()=>songSet(props.song)} className="cursor-pointer" >
         <Flex gap="3" align="center">
           <Avatar
             size={(mobile)?"4":"5"}

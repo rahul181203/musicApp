@@ -59,9 +59,10 @@ export const MainPlayer = () => {
     }
 
     useEffect(()=>{
-
+      console.log("entered");  
       // const audio:HTMLAudioElement = document.getElementById("player") as HTMLAudioElement
       if(typeof audio !== "undefined"){
+              
         audio.src = songs[indexNumber]?.file
         audio.addEventListener("loadeddata",()=>{     
           setDuration(getTimeCodeFromNum(audio.duration))
@@ -69,18 +70,21 @@ export const MainPlayer = () => {
           // audio.addTextTrack()
         })
         audio.addEventListener("ended",()=>{
-            (songs.length !== indexNumber + 1)&&setIndex(indexNumber+1);
+          console.log(songs.length);
             if(songs.length !== indexNumber + 1){
+              console.log("enter");
+              
+              setIndex(indexNumber+1);
               audio.src = songs[indexNumber]?.file;
+              audio.play();
             }else{
               audio.pause();
             }
-            (songs.length !== indexNumber + 1)&&audio.play();
         })
       }
       setSong(audio)
       setPlayPause(true);
-    },[indexNumber])
+    },[songs])
 
 
     setInterval(()=>{
