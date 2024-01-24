@@ -42,6 +42,14 @@ export default function RootLayout({
   
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <title>Music App</title>
+        <meta name="title" content="Music App" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+        <meta name="description" content="Listen to the best songs" />
+        <meta name="theme-color" content="#000000"/>
+        <link rel="icon" href="/logo.png" />
+      </head>
       <body className={poppins.variable} suppressHydrationWarning={true}>
       <Provider>
         <QueryClientProvider client={queryClient}>
