@@ -3,7 +3,7 @@ import { Request,Response } from 'express'
 const prisma = new PrismaClient()
 // import AlbumData from "../album.json";
 // import Artistdata from "../artists.json";
-import songData from "../songs.json";
+// import songData from "../songs.json";
 // import relation from "../songArtists.json";
 
 // export const AddArtist=async(req:Request,res:Response)=>{
@@ -17,11 +17,11 @@ import songData from "../songs.json";
 // }
 
 export const AddSong=async(req:Request,res:Response)=>{
-    await prisma.song.createMany({
-        data:songData
-    }).then(()=>{
-        res.status(200).json({result:"Added successfully"});
-    })
+    // await prisma.song.createMany({
+    //     data:songData
+    // }).then(()=>{
+    //     res.status(200).json({result:"Added successfully"});
+    // })
 }
 
 // export const AddSongArtist=async(req:Request,res:Response)=>{
