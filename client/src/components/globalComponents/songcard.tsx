@@ -61,13 +61,10 @@ export const AlbumCard = (props:any) => {
   const mobile = useAtomValue(sizeAtom);
 
   return <>
-  <Link href={{pathname:'/album', query:{
-    "data":`${JSON.stringify(props.album)}`
-  }}} >
+  <Link href={{pathname:`/album/${props.album.id}`}} >
     <Card size="2" className="cursor-pointer">
-  <Inset clip="padding-box" side="top" pb="current" className="w-full h-[200px]">
+  <Inset clip="padding-box" side="top" pb="current" className="w-[200px] h-[200px]">
     <Image
-    className="object-cover w-full"
       src={props.album.img}
       alt="song"
       width={'100'}

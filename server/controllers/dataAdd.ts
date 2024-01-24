@@ -3,7 +3,7 @@ import { Request,Response } from 'express'
 const prisma = new PrismaClient()
 // import AlbumData from "../album.json";
 // import Artistdata from "../artists.json";
-// import songData from "../songs.json";
+import songData from "../songs.json";
 // import relation from "../songArtists.json";
 
 // export const AddArtist=async(req:Request,res:Response)=>{
@@ -16,13 +16,13 @@ const prisma = new PrismaClient()
 //     })
 // }
 
-// export const AddSong=async(req:Request,res:Response)=>{
-//     await prisma.song.createMany({
-//         data:songData
-//     }).then(()=>{
-//         res.status(200).json({result:"Added successfully"});
-//     })
-// }
+export const AddSong=async(req:Request,res:Response)=>{
+    await prisma.song.createMany({
+        data:songData
+    }).then(()=>{
+        res.status(200).json({result:"Added successfully"});
+    })
+}
 
 // export const AddSongArtist=async(req:Request,res:Response)=>{
 //     await prisma.songArtist.createMany({
@@ -41,12 +41,25 @@ const prisma = new PrismaClient()
 // }
 
 export const getAlbums=async(req:Request,res:Response)=>{
-    const data = await prisma.album.findMany({
-        include:{
-            songs:true
-        }
-    });
+    const data = await prisma.album.findMany({});
     res.status(200).json({data})
+}
+
+export const getAlbumSong=async(req:Request,res:Response)=>{
+    const id:any = req.params.id;
+    const data = await prisma.album.findUnique({
+        where:{
+            id:id
+        },
+        include:{
+            songs:{
+                include:{
+                    artists:true
+                }
+            }
+        }
+    })
+    res.status(200).json({data})   
 }
 
 export const getArtists=async(req:Request,res:Response)=>{

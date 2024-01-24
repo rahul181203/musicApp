@@ -4,17 +4,28 @@ import { PlayIcon } from "@radix-ui/react-icons";
 import { Box, Container, Heading, Table, Text } from "@radix-ui/themes";
 import { useAtom } from "jotai"
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import axios from "@/services/instance";
+import { useQuery } from "@tanstack/react-query";
+// import { useSearchParams } from "next/navigation";
 
-export default function Album(){
-    const mobile = useAtom(sizeAtom);
-    const searchparams = useSearchParams()
-    // const data = router
-    const data = JSON.parse(searchparams.get("data")!);    
+export default function Album({params}:{
+    params:{ albumid:string}
+}){
+    console.log(params.albumid);
+    function getSongs(){
+        return axios.get(`/getAlbums/${params.albumid}`)
+    }
+    const {status, data, error,isLoading} = useQuery({
+        queryKey:['songs'],
+        queryFn:getSongs
+    })
+    console.log(data);
+    
     
     return(
         <>
-            <Container size={'4'} m={'5'}>
+        <Heading>Hello</Heading>
+            {/* <Container size={'4'} m={'5'}>
                 <Box className="flex flex-col items-center gap-3">
                     <Image
                     src={data.img} 
@@ -43,7 +54,7 @@ export default function Album(){
                     </Table.Body>
                     </Table.Root>
                 </Box>
-            </Container>
+            </Container> */}
         </>
     )
 }
