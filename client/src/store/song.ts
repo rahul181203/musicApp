@@ -1,6 +1,6 @@
 import { atom} from "jotai"
 
-interface SongTypes{
+export interface SongTypes{
     id:string,
     name:string,
     img:string,

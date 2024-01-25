@@ -27,7 +27,7 @@ export function AlbumCard({data}:{
                 </Box>
                 <Table.Root className="w-full">
                 <Table.Body>
-                {setSongs(data?.songs)}
+                {/* {setSongs(data?.songs)} */}
                 {
                     data?.songs.map((e:any,i:number)=>{
                         return <Table.Row key={i}>

@@ -18,8 +18,11 @@ export default function Home() {
   const playing = useAtomValue(isPlaying)
   
   return (
+    
     <>
+    
       {
+        
         (!mobile)&&
         <>
           <MainHeader/>

@@ -7,6 +7,7 @@ import Image from "next/image";
 import axios from "@/services/instance";
 import { useQuery } from "@tanstack/react-query";
 import { AlbumCard } from "../components/albumList"
+import { songData } from "@/store/song";
 
 export default function Album({params}:{
     params:{ albumid:string}
@@ -16,18 +17,17 @@ export default function Album({params}:{
         return axios.get(`/getAlbums/${params.albumid}`)
     }
     
-    const {status, data, error,isLoading} = useQuery({
-        queryKey:['songs'],
-        queryFn:getSongs
+    const {status, data, error,isLoading,isSuccess} = useQuery({
+        queryKey:[`${params.albumid}`],
+        queryFn:()=>getSongs()
     })
-    
     return(
         <>
         {
             (isLoading)&&<Heading>Loading...</Heading>
         }
         {
-            (!isLoading)&&<AlbumCard data={data?.data.data}/>
+            (!isLoading)&&<AlbumCard data={data?.data.data} />
         }
         </>
     )

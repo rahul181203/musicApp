@@ -5,15 +5,19 @@ import { ComponentSpacer } from "../globalComponents/spacer"
 import { SongData } from "@/data"
 import axios from "@/services/instance"
 import { useQuery } from "@tanstack/react-query"
+import { SongTypes } from "@/store/song"
 
 export const Quickpicks=()=>{
-    async function getSongs(){
-        return await axios.get("/get15songs")
+    function getSongs(){
+        return axios.get("/get15songs")
     }
     const {status, data, error,isLoading} = useQuery({
         queryKey:['songs'],
-        queryFn:getSongs
+        queryFn:()=>getSongs()
     })
+    
+    const songsList:Array<any> = data?.data.data;
+    
     
     return (
         <>
@@ -27,7 +31,7 @@ export const Quickpicks=()=>{
             <ScrollArea scrollbars={'horizontal'}>
             <Grid rows={'4'} flow={'column'}  gap={'3'} mb={'4'}>
                 {
-                    data?.data.data.map((e:any,i:number)=>{
+                    songsList?.map((e:SongTypes,i:number)=>{
                         return <SongCard key={i} song={e}/>
                     })
                 }
