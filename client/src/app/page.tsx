@@ -15,7 +15,7 @@ import { isPlaying } from '@/store/song'
 
 export default function Home() {
   const mobile = useAtomValue(sizeAtom)
-  const playing = useAtomValue(isPlaying)
+  
   
   return (
     

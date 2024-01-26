@@ -59,37 +59,26 @@ export const MainPlayer = () => {
     }
 
     useEffect(()=>{
-      console.log("entered");  
-      // const audio:HTMLAudioElement = document.getElementById("player") as HTMLAudioElement
-      if(typeof songs !== "undefined"){
         if(typeof audio !== "undefined"){
           audio.src = songs[indexNumber]?.file
           audio.addEventListener("loadeddata",()=>{     
             setDuration(getTimeCodeFromNum(audio.duration))
             audio.play()
-            // audio.addTextTrack()
           })
           audio.addEventListener("ended",()=>{
             console.log(songs.length);
-              if(songs.length !== indexNumber + 1){
-                console.log("enter");
-                
-                setIndex(indexNumber+1);
-                audio.src = songs[indexNumber]?.file;
-                audio.play();
-              }else{
-                audio.pause();
-              }
+            console.log("enter");
+            (songs.length !== indexNumber+1)&&setIndex(indexNumber+1);
+            console.log(indexNumber);
           })
         }
-      }
       setSong(audio)
       setPlayPause(true);
-    },[songs])
+    },[songs[indexNumber]?.file])
 
 
     setInterval(()=>{
-      if(songFile !== undefined){
+      if(songFile !== "undefined"){
         setWidth((songFile.currentTime/songFile.duration)*100)
         setTime(getTimeCodeFromNum(songFile.currentTime))
       }
@@ -126,8 +115,9 @@ export const MainPlayer = () => {
           </Dialog.Root>
 
           <div className="flex gap-2">
-            <Text>{ct!}</Text>
+            <Text>{ct}</Text>
             <TrackPreviousIcon
+            onClick={()=>{(indexNumber !== 0)&&setIndex(indexNumber-1)}}
               className="text-sand1"
               height={"20"}
               width={"20"}
@@ -136,14 +126,14 @@ export const MainPlayer = () => {
               {(playPause)?<PauseIcon id="pausebtn" onClick={()=>{songFile.pause();setPlayPause(false)}} className="text-sand1" height={'20'} width={'20'}/>:
               <PlayIcon id="playbtn" onClick={()=>{songFile.play();setPlayPause(true)}} className="text-sand1" height={"20"} width={"20"} />}
             </div>
-            <TrackNextIcon className="text-sand1" height={"20"} width={"20"} />
+            <TrackNextIcon onClick={()=>{(indexNumber+1 !== songs.length)&&setIndex(indexNumber+1)}} className="text-sand1" height={"20"} width={"20"} />
             <Text>{duration!}</Text>
           </div>
           {(!mobile)&&<div className="flex gap-2">
             <SpeakerOffIcon className="text-sand1" height={"20"} width={"20"} onClick={()=>{songFile.volume=0}} />
             <SpeakerLoudIcon className="text-sand1" height={'20'} width={'20'} onClick={()=>{songFile.volume=1}}/>
-            <ShuffleIcon className="text-sand1" height={"20"} width={"20"} />
-            <LoopIcon className="text-sand1" height={"20"} width={"20"} />
+            {/* <ShuffleIcon className="text-sand1" height={"20"} width={"20"} />
+            <LoopIcon className="text-sand1" height={"20"} width={"20"} /> */}
           </div>}
         </div>
       </Container>}

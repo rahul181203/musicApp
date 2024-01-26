@@ -24,7 +24,7 @@ export default function Album({params}:{
     return(
         <>
         {
-            (isLoading)&&<Heading>Loading...</Heading>
+            (isLoading)&&<Heading className="min-h-screen">Loading...</Heading>
         }
         {
             (!isLoading)&&<AlbumCard data={data?.data.data} />
